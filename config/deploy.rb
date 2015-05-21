@@ -70,6 +70,10 @@ task :deploy => :environment do
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
+    to :launch do
+      queue "restart shopper"
+    end
+
     # to :launch do
     #   queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
     #   queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"

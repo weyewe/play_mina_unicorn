@@ -13,7 +13,7 @@ require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
  
 set :domain, '128.199.148.227'
 set :deploy_to, '/var/www/designkomerz.com'
-set :repository, 'github.com/weyewe/play_mina_unicorn.git'
+set :repository, 'git://github.com/weyewe/play_mina_unicorn.git'
 set :branch, 'master'
 set :user , 'deployer'
 

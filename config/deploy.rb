@@ -73,21 +73,21 @@ task :deploy => :environment do
     #   queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
     #   queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     # end
-    to :launch do
-      invoke :'unicorn:restart'
-    end
+    # to :launch do
+    #   invoke :'unicorn:restart'
+    # end
   end
 end
 
-namespace :unicorn do
-  task :restart do
+# namespace :unicorn do
+#   task :restart do
     
-    queue %{
-      echo "-----> Restarting Unicorn"
-      #{echo_cmd %[kill -s USR2 `cat /tmp/unicorn.shopper.pid`]}
-    }
-  end
-end
+#     queue %{
+#       echo "-----> Restarting Unicorn"
+#       #{echo_cmd %[kill -s USR2 `cat /tmp/unicorn.shopper.pid`]}
+#     }
+#   end
+# end
 
 # For help in making your deploy script, see the Mina documentation:
 #

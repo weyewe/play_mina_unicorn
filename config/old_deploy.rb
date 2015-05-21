@@ -2,7 +2,7 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-require 'mina/unicorn'
+# require 'mina/unicorn'
 # require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 # Basic settings:
@@ -17,14 +17,13 @@ set :deploy_to, '/var/www/designkomerz.com'
 set :repository, 'git://github.com/weyewe/play_mina_unicorn.git'
 set :branch, 'master'
 set :user , 'deployer'
-set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'log', 'config/secrets.yml']
+set :shared_paths, ['config/database.yml', 'log']
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
@@ -54,10 +53,6 @@ task :setup => :environment do
 
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
-
-  queue! %[touch "#{deploy_to}/shared/config/secrets.yml"]
-  queue %[echo "-----> Be sure to edit 'shared/config/secrets.yml'."]
-
 end
 
 desc "Deploys the current version to the server."
@@ -75,17 +70,17 @@ task :deploy => :environment do
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
-    # to :launch do
-    #   queue "restart shopper"
-    # end
+    to :launch do
+      queue "restart shopper"
+    end
 
     # to :launch do
     #   queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
     #   queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
     # end
-    to :launch do
-      invoke :'unicorn:restart'
-    end
+    # to :launch do
+    #   invoke :'unicorn:restart'
+    # end
   end
 end
 
